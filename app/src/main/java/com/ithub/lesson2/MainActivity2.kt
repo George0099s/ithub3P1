@@ -17,15 +17,12 @@ class MainActivity2 : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.main2_activity)
-
         val thisIntent = intent // intent == getIntent/setIntent
         textView = findViewById(R.id.text_view)
         edFinish = findViewById(R.id.res_ed)
         finish = findViewById(R.id.finish)
         val name = thisIntent.getStringExtra("name")
         val age = thisIntent.getIntExtra("age", 0)
-
-
 
         textView.text =
             "Имя = ${thisIntent.getStringExtra("name")} \nВозраст = $age" // text = "smthg" equals setText("smthg")

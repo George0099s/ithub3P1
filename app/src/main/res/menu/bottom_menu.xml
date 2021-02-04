@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:id="@+id/order"
+        android:icon="@drawable/ic_launcher_foreground"
+        android:iconTint="@color/black"
+        android:title="Заказать"
+        />
+    <item android:id="@+id/order2"
+        android:iconTint="@color/black"
+        android:icon="@drawable/ic_launcher_foreground"
+        android:title="Заказать"
+        />
+
+</menu>
