@@ -27,14 +27,4 @@ class DiaFragment : DialogFragment(){
         return binding.root
     }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setStyle(STYLE_NORMAL, R.style.DialogStyleAnim)
-
-    }
-
-    override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-
-        return super.onCreateDialog(savedInstanceState)
-    }
 }

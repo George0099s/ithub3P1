@@ -9,16 +9,15 @@ class FragmentActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_fragment_activty)
 
-        if (savedInstanceState == null)
+//        if (savedInstanceState == null)
         supportFragmentManager
             .beginTransaction()
             .addToBackStack("frag")
-            .replace(R.id.frag_cont, BlankFragment(), "frag")
+            .add(R.id.frag_cont, OrderListFragment(), "frag")
             .commit()
     }
 
     override fun onBackPressed() {
-        Log.d(Companion.TAG, "onBackPressed: ${supportFragmentManager.backStackEntryCount}")
         super.onBackPressed()
     }
 
