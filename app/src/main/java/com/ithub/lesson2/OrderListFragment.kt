@@ -1,6 +1,5 @@
 package com.ithub.lesson2
 
-import android.R
 import android.content.Context
 import android.os.Bundle
 import android.os.Parcel
@@ -12,13 +11,14 @@ import android.widget.ArrayAdapter
 import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.ithub.lesson2.databinding.OrderListLayoutBinding
 
 
 //fun <T: Any?>
 
-data class Person(val name: String = "Name", val age: Int): Parcelable {
+data class Person(var name: String = "Name", var age: Int, val pos: String = "Teacher") : Parcelable {
     constructor(parcel: Parcel) : this(
         parcel.readString()!!,
         parcel.readInt()
@@ -64,21 +64,28 @@ class OrderListFragment : Fragment(), PersonClickListener {
 
     private fun initView() {
         val listInt = mutableListOf<Int>()
-        rvAdapter = MyAdapter(emptyList(), this)
+
         for (i in 0..100) {
             listInt.add(i)
             personList.add(Person(age = i))
         }
+        rvAdapter = MyAdapter(personList, this)
 
         listAdapter = ArrayAdapter(requireContext(), android.R.layout.simple_list_item_1, listInt)
 
 //        binding.list.adapter = CustomArrayAdapter(requireContext(), personList)
 
         binding.initData.setOnClickListener {
-            for (i in 0..Math.random().toInt()) {
-                personList.add(Person(age = i))
-            }
+
+//            personList.add(0, Person(name = "new name", age = 22))
+
+
+            personList.removeAt(4)
+            val diffUtil = MyDiffUtil(rvAdapter.list, personList)
+            val productDiffResult = DiffUtil.calculateDiff(diffUtil)
+
             rvAdapter.update(personList)
+            productDiffResult.dispatchUpdatesTo(rvAdapter)
         }
 
         binding.list.apply {
@@ -91,7 +98,7 @@ class OrderListFragment : Fragment(), PersonClickListener {
     class CustomArrayAdapter : ArrayAdapter<Person> {
         private var list = listOf<Person>()
 
-        constructor(context: Context) : super(context, R.layout.simple_list_item_1)
+        constructor(context: Context) : super(context, android.R.layout.simple_list_item_1)
 
         override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
             val item = list[position]
@@ -102,15 +109,15 @@ class OrderListFragment : Fragment(), PersonClickListener {
                     .inflate(android.R.layout.simple_list_item_2, null)
             }
 
-            (view!!.findViewById<View>(R.id.text1) as TextView).text = item.name
-            (view.findViewById<View>(R.id.text2) as TextView).text = item.age.toString()
+            (view!!.findViewById<View>(android.R.id.text1) as TextView).text = item.name
+            (view.findViewById<View>(android.R.id.text2) as TextView).text = item.age.toString()
 
             return view
         }
 
         constructor(context: Context, list: List<Person>) : super(
             context,
-            R.layout.simple_list_item_1,
+            android.R.layout.simple_list_item_1,
             list
         ) {
             this.list = list
@@ -118,6 +125,16 @@ class OrderListFragment : Fragment(), PersonClickListener {
     }
 
     override fun onPersonClick(item: Person) {
+
+//        requireActivity().supportFragmentManager
+//            .beginTransaction()
+//            .addToBackStack("ss")
+//            .replace(R.id.frag_cont, DetailPerson().apply {
+//                arguments = Bundle().apply {
+//                    putParcelable("item", item)
+//                }
+//            }, "detailPerson")
+//            .commit()
         Toast.makeText(requireContext(), item.toString(), Toast.LENGTH_SHORT).show()
     }
 
